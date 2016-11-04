@@ -21,7 +21,7 @@ feather_height = 1.5;
 
 feather_xtranslate = (case_bottom_width-feather_width)/2;
 feather_ytranslate = wallthick+.5;
-feather_ztranslate = wallthick+1;
+feather_ztranslate = wallthick+2;
 
 
 tc_cutout_xtranslate = case_bottom_width-wallthick;
@@ -47,7 +47,7 @@ dcjack_r = 8.1/2;
 
 dcjack_xtranslate = (case_bottom_width-2*dcjack_r)/2+dcjack_r;
 dcjack_ytranslate = 0;
-dcjack_ztranslate = feather_ztranslate+14.5+dcjack_r;
+dcjack_ztranslate = feather_ztranslate+16+dcjack_r;
 
 case_bottom();
 *case_top();
