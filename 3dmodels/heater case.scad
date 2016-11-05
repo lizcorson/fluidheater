@@ -4,7 +4,7 @@ peg_r = 2.4/2;
 peg_placelow = 0;
 peg_placehigh = peg_placelow + 45.72;
 fnval = 100;
-peg_h = 17;
+peg_h = 6;
 peg_spread = 17.78;
 
 case_bottom_width = 30;
@@ -17,11 +17,11 @@ pegs_xtranslate = (case_bottom_width-peg_spread)/2;
 
 feather_depth = 50.8;
 feather_width = 22.86;
-feather_height = 1.5;
+feather_height = 3;
 
 feather_xtranslate = (case_bottom_width-feather_width)/2;
 feather_ytranslate = wallthick+.5;
-feather_ztranslate = wallthick+2;
+feather_ztranslate = wallthick+1;
 
 
 tc_cutout_xtranslate = case_bottom_width-wallthick;
@@ -49,14 +49,14 @@ dcjack_xtranslate = (case_bottom_width-2*dcjack_r)/2+dcjack_r;
 dcjack_ytranslate = 0;
 dcjack_ztranslate = feather_ztranslate+16+dcjack_r;
 
-case_bottom();
-*case_top();
+*case_bottom();
+case_top();
 
 module case_top() {
     
     translate([0,0,case_bottom_height]) cube([case_bottom_width,case_bottom_depth,wallthick], center=false);
 
-    translate([case_bottom_width-wallthick,tc_cutout_ytranslate,case_bottom_height-tc_cover_height]) cube([wallthick,tc_cutout_depth,tc_cover_height], center=false);
+    translate([case_bottom_width-wallthick,tc_cutout_ytranslate+.2,case_bottom_height-tc_cover_height]) cube([wallthick,tc_cutout_depth-.4,tc_cover_height], center=false);
 
     translate([wallthick,wallthick,case_bottom_height-wallthick]) cube([case_bottom_width-wallthick*2,case_bottom_depth-wallthick*2,wallthick], center=false);
 }
