@@ -17,7 +17,7 @@ pegs_xtranslate = (case_bottom_width-peg_spread)/2;
 
 feather_depth = 50.8;
 feather_width = 22.86;
-feather_height = 3;
+feather_height = 1;
 
 feather_xtranslate = (case_bottom_width-feather_width)/2;
 feather_ytranslate = wallthick+.5;
@@ -49,8 +49,8 @@ dcjack_xtranslate = (case_bottom_width-2*dcjack_r)/2+dcjack_r;
 dcjack_ytranslate = 0;
 dcjack_ztranslate = feather_ztranslate+16+dcjack_r;
 
-*case_bottom();
-case_top();
+case_bottom();
+*case_top();
 
 module case_top() {
     
