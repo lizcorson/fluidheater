@@ -49,10 +49,10 @@ dcjack_xtranslate = (case_bottom_width-2*dcjack_r)/2+dcjack_r;
 dcjack_ytranslate = 0;
 dcjack_ztranslate = feather_ztranslate+16+dcjack_r;
 
-tolerance = .2;
+tolerance = .1;
 
-case_bottom();
-*case_top();
+*case_bottom();
+case_top();
 
 module case_top() {
     //top
