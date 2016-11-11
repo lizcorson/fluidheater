@@ -1,4 +1,4 @@
-wallthick = 2;
+wallthick = 1.5;
 
 peg_r = 2.4/2;
 peg_placelow = 0;
@@ -35,8 +35,8 @@ tc_cutout_height = case_bottom_height-tc_cutout_ztranslate;
 
 tc_cover_height = 15;
 
-usb_width = 10;
-usb_height = 5;
+usb_width = 11.5;
+usb_height = 8;
 usb_depth = wallthick;
 
 usb_xtranslate = (case_bottom_width-usb_width)/2;
@@ -49,16 +49,20 @@ dcjack_xtranslate = (case_bottom_width-2*dcjack_r)/2+dcjack_r;
 dcjack_ytranslate = 0;
 dcjack_ztranslate = feather_ztranslate+16+dcjack_r;
 
+tolerance = .2;
+
 case_bottom();
 *case_top();
 
 module case_top() {
-    
+    //top
     translate([0,0,case_bottom_height]) cube([case_bottom_width,case_bottom_depth,wallthick], center=false);
-
-    translate([case_bottom_width-wallthick,tc_cutout_ytranslate+.2,case_bottom_height-tc_cover_height]) cube([wallthick,tc_cutout_depth-.4,tc_cover_height], center=false);
-
-    translate([wallthick,wallthick,case_bottom_height-wallthick]) cube([case_bottom_width-wallthick*2,case_bottom_depth-wallthick*2,wallthick], center=false);
+    
+    //side panel
+    translate([case_bottom_width-wallthick,tc_cutout_ytranslate+tolerance,case_bottom_height-tc_cover_height]) cube([wallthick,tc_cutout_depth-tolerance*2,tc_cover_height], center=false);
+    
+    //underneath
+    translate([wallthick+tolerance,wallthick+tolerance,case_bottom_height-wallthick]) cube([case_bottom_width-wallthick*2-tolerance*2,case_bottom_depth-wallthick*2-tolerance*2,wallthick], center=false);
 }
 
 module case_bottom() {
