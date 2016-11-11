@@ -21,6 +21,7 @@ long lastMessageSent = 0;
 //bool firstSend = false;
 int heaterSetStatus = 0;
 int heaterSetpoint = 20;
+int heaterActive = 0;
 
 //PID
 //Define Variables we'll be connecting to
@@ -50,10 +51,15 @@ void loop() {
      Input = c;
     }
     Serial.print(",");
+    Serial.print(heaterActive);
+    Serial.print(",");
     Serial.print(heaterSetStatus);
     Serial.print(",");
     Serial.println(heaterSetpoint);   
     lastMessageSent = millis();
+    // Message output format: temperature reading,heater on/off status, heater on/off set, temperature set point
+    // Example: 36.5,0,1,35 
+    // ^ Temperature reading is above set point so heater turns off
   }
 
   //manage heater
@@ -62,8 +68,10 @@ void loop() {
     //myPID.Compute();
     //analogWrite(HEATERPIN,Output);
     analogWrite(HEATERPIN,60); //this number needs to be changed to get to higher temperatures
+    heaterActive = 1;
   } else {
     analogWrite(HEATERPIN,0);
+    heaterActive = 0;
   }
   
   
