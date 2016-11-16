@@ -28,7 +28,7 @@ int heaterActive = 0;
 double Setpoint, Input, Output;
 
 //Specify the links and initial tuning parameters
-PID myPID(&Input, &Output, &Setpoint,2,5,1, DIRECT);
+PID myPID(&Input, &Output, &Setpoint,2,2,1, DIRECT);
 
 void setup() {
   while (!Serial); // wait for Serial on Leonardo/Zero, etc
@@ -37,6 +37,8 @@ void setup() {
   // wait for MAX chip to stabilize
   delay(500); 
   pinMode(HEATERPIN, OUTPUT);
+  //turn the PID on
+  myPID.SetMode(AUTOMATIC);
 }
 
 void loop() {
@@ -55,7 +57,9 @@ void loop() {
     Serial.print(",");
     Serial.print(heaterSetStatus);
     Serial.print(",");
-    Serial.println(heaterSetpoint);   
+    Serial.print(heaterSetpoint);   
+    Serial.print(",");
+    Serial.println((int)(Output/2));  
     lastMessageSent = millis();
     // Message output format: temperature reading,heater on/off status, heater on/off set, temperature set point
     // Example: 36.5,0,1,35 
@@ -63,11 +67,11 @@ void loop() {
   }
 
   //manage heater
-  if (heaterSetStatus == 1 && Input < (double)heaterSetpoint) {
+  if (heaterSetStatus == 1) {// && Input < (double)heaterSetpoint) {
     Setpoint = (double)heaterSetpoint;
-    //myPID.Compute();
-    //analogWrite(HEATERPIN,Output);
-    analogWrite(HEATERPIN,96); //this number needs to be changed to get to higher temperatures
+    myPID.Compute();
+    analogWrite(HEATERPIN,(int)(Output/2)); //need to limit to a max of 128.
+    //analogWrite(HEATERPIN,96); //this number needs to be changed to get to higher temperatures
     heaterActive = 1;
   } else {
     analogWrite(HEATERPIN,0);
