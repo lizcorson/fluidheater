@@ -31,8 +31,8 @@ double Setpoint, Input, Output;
 PID myPID(&Input, &Output, &Setpoint,2,5,1, DIRECT);
 
 void setup() {
-  while (!Serial); // wait for Serial on Leonardo/Zero, etc
-  Serial.begin(9600);
+  while (!Serial1); // wait for Serial on Leonardo/Zero, etc
+  Serial1.begin(9600);
   //Serial.println("MAX31855 test");
   // wait for MAX chip to stabilize
   delay(500); 
@@ -45,17 +45,17 @@ void loop() {
   if ((unsigned long)(millis() - lastMessageSent) > serialFrequency) {
     double c = thermocouple.readCelsius();
     if (isnan(c)) {
-     Serial.print("-1");
+     Serial1.print("-1");
     } else {
-     Serial.print(c);
+     Serial1.print(c);
      Input = c;
     }
-    Serial.print(",");
-    Serial.print(heaterActive);
-    Serial.print(",");
-    Serial.print(heaterSetStatus);
-    Serial.print(",");
-    Serial.println(heaterSetpoint);   
+    Serial1.print(",");
+    Serial1.print(heaterActive);
+    Serial1.print(",");
+    Serial1.print(heaterSetStatus);
+    Serial1.print(",");
+    Serial1.println(heaterSetpoint);   
     lastMessageSent = millis();
     // Message output format: temperature reading,heater on/off status, heater on/off set, temperature set point
     // Example: 36.5,0,1,35 
@@ -79,8 +79,8 @@ void loop() {
 }
 void checkSerial() {
   String inputString;
-  if(Serial.available() > 0) {
-    inputString = Serial.readStringUntil('\n');
+  if(Serial1.available() > 0) {
+    inputString = Serial1.readStringUntil('\n');
     //Serial.print("NEW INPUT: ");
     //Serial.println(inputString);
   

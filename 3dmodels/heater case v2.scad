@@ -59,7 +59,7 @@ usb2width = 13;
 usb2height = 11.5;
 usb2x = -15-usb2width;
 usb2y = 0;
-usb2z = 19;
+usb2z = 19+wallthick;
 
 leftcasewidth = boardwidth + 3;
 leftcasedepth = case_bottom_depth;
