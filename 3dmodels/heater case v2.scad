@@ -65,8 +65,8 @@ leftcasewidth = boardwidth + 3;
 leftcasedepth = case_bottom_depth;
 leftcaseheight = case_bottom_height;
 
-case_bottom();
-*case_top();
+*case_bottom();
+case_top();
 
 *translate([-boardwidth,boardoffsety,0]) cube([boardwidth,boarddepth,boardheight]);
 
