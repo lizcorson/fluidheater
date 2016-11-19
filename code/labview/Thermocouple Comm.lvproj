@@ -11,10 +11,17 @@
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="Log Data.vi" Type="VI" URL="../Log Data.vi"/>
-		<Item Name="Main.vi" Type="VI" URL="../Main.vi"/>
+		<Item Name="Log Data_PID.vi" Type="VI" URL="../Log Data_PID.vi"/>
+		<Item Name="Log Data_PWM.vi" Type="VI" URL="../Log Data_PWM.vi"/>
+		<Item Name="Main_onoff.vi" Type="VI" URL="../Main_onoff.vi"/>
+		<Item Name="Main_PIDTune.vi" Type="VI" URL="../Main_PIDTune.vi"/>
+		<Item Name="Main_PWM.vi" Type="VI" URL="../Main_PWM.vi"/>
 		<Item Name="Poll.vi" Type="VI" URL="../Poll.vi"/>
 		<Item Name="Read TC.vi" Type="VI" URL="../Read TC.vi"/>
+		<Item Name="Read TC_PID.vi" Type="VI" URL="../Read TC_PID.vi"/>
+		<Item Name="Read TC_PWM.vi" Type="VI" URL="../Read TC_PWM.vi"/>
 		<Item Name="Start Log.vi" Type="VI" URL="../Start Log.vi"/>
+		<Item Name="Start Log_PID.vi" Type="VI" URL="../Start Log_PID.vi"/>
 		<Item Name="Streaming.vi" Type="VI" URL="../Streaming.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
