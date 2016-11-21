@@ -90,8 +90,8 @@ module um232() {
     translate([uheader_offset_x2,uheader_offset_y,-uheader_height]) cube([uheader_width,uheader_depth,uheader_height]);
 }
 
-*case_bottom();
-case_top();
+case_bottom();
+*case_top();
 
 shell_width = 1;
 *translate([-um232_width+um232_offset_x,wallthick+tolerance,uheader_height+wallthick]) um232();
@@ -99,11 +99,11 @@ shell_width = 1;
 module um232holder() {
     difference() {
         color([1,0,0]) translate([um232_offset_x-um232_width+uheader_offset_x2-shell_width,uheader_offset_y+tolerance+wallthick-shell_width,wallthick]) cube([uheader_width+shell_width*2,uheader_depth+shell_width*2,uheader_height]);
-        translate([uheader_offset_x2-um232_width+um232_offset_x,uheader_offset_y+wallthick+tolerance,-uheader_height+uheader_height+wallthick]) cube([uheader_width,uheader_depth,uheader_height]);
+        translate([uheader_offset_x2-um232_width+um232_offset_x-tolerance*2,uheader_offset_y+wallthick-tolerance*2,-uheader_height+uheader_height+wallthick]) cube([uheader_width+tolerance*4,uheader_depth+tolerance*4,uheader_height]);
     }
     difference() {
         color([1,0,0]) translate([um232_offset_x-um232_width+uheader_offset_x1,uheader_offset_y+tolerance+wallthick-shell_width,wallthick]) cube([uheader_width+shell_width,uheader_depth+shell_width*2,uheader_height]);
-        translate([uheader_offset_x1-um232_width+um232_offset_x,uheader_offset_y+wallthick+tolerance,-uheader_height+uheader_height+wallthick]) cube([uheader_width,uheader_depth,uheader_height]); 
+        translate([uheader_offset_x1-um232_width+um232_offset_x,uheader_offset_y+wallthick-tolerance*2,-uheader_height+uheader_height+wallthick]) cube([uheader_width,uheader_depth+tolerance*4,uheader_height]); 
     }
 }
 

@@ -23,6 +23,7 @@ int heaterSetStatus = 0;
 int heaterSetpoint = 20;
 int heaterActive = 0;
 int pwmOut = 0;
+double tcRead = 0;
 
 //PID
 //Define Variables we'll be connecting to
@@ -34,9 +35,9 @@ double Kd = 0;
 PID myPID(&Input, &Output, &Setpoint,Kp,Ki,Kd, DIRECT);
 
 void setup() {
-  while (!Serial); // wait for Serial on Leonardo/Zero, etc
-  Serial.begin(9600);
-  //Serial.println("Hello!");
+  while (!Serial1); // wait for Serial on Leonardo/Zero, etc
+  Serial1.begin(9600);
+  Serial1.println("Hello!");
   delay(500); 
   pinMode(HEATERPIN, OUTPUT);
   //turn the PID on
@@ -49,23 +50,11 @@ void loop() {
   if ((unsigned long)(millis() - lastMessageSent) > serialFrequency) {
     double c = thermocouple.readCelsius();
     if (isnan(c)) {
-     Serial.print("-1");
+     tcRead = -1; // so you know if there's a thermocouple error
     } else {
-     Serial.print(c);
      Input = c;
-    }
-    /*Serial1.print(",");
-    Serial1.print(heaterActive);
-    Serial1.print(",");
-    Serial1.print(heaterSetStatus);
-    Serial1.print(",");
-    Serial1.print(heaterSetpoint);   
-    Serial1.print(",");
-    Serial1.println(pwmOut);*/
-    Serial.println("," + (String)heaterActive + "," + (String)heaterSetStatus + "," + (String)heaterSetpoint + "," + (String)pwmOut);
-    lastMessageSent = millis();
-    // Message output format: temperature reading,heater on/off status, heater on/off set, temperature set point,PWM output
-    // Example: 36.5,1,1,35,81 
+     tcRead = c;
+    }    
   }
 
   //manage heater
@@ -89,8 +78,8 @@ void loop() {
 
 void checkSerial() {
   String inputString;
-  if(Serial.available() > 0) {
-    inputString = Serial.readStringUntil('\n');
+  if(Serial1.available() > 0) {
+    inputString = Serial1.readStringUntil('\n');
     //expected message format is 1,35
     //on/off,temp set point (C)
     //parse message 
@@ -107,7 +96,9 @@ void checkSerial() {
         heaterSetpoint = newSetpoint;
       }
     }
-    //Serial.println((String)Input + "," + (String)heaterActive + "," + (String)heaterSetStatus + "," + (String)heaterSetpoint + "," + (String)pwmOut);
+    Serial1.println((String)tcRead + "," + (String)heaterActive + "," + (String)heaterSetStatus + "," + (String)heaterSetpoint + "," + (String)pwmOut);
+    // Message output format: temperature reading,heater on/off status, heater on/off set, temperature set point,PWM output
+    // Example: 36.5,1,1,35,81 
   } 
 }
 
