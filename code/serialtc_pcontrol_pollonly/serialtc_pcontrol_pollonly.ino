@@ -16,11 +16,11 @@ Adafruit_MAX31855 thermocouple(MAXCLK, MAXCS, MAXDO);
 #define MINTEMP 20
 #define MAXTEMP 37
 
-const int serialFrequency = 1000; // 1 second
-long lastMessageSent = 0;
+const int tempCheckDelay = 1000; // 1 second
+long lastTCheck = 0;
 //bool firstSend = false;
 int heaterSetStatus = 0;
-int heaterSetpoint = 20;
+double heaterSetpoint = 20;
 int heaterActive = 0;
 int pwmOut = 0;
 double tcRead = 0;
@@ -46,8 +46,8 @@ void setup() {
 
 void loop() {
   checkSerial();
-  //Send a serial message only once every serialFrequency ms
-  if ((unsigned long)(millis() - lastMessageSent) > serialFrequency) {
+  //Check temperature every tempCheckDelay ms
+  if ((unsigned long)(millis() - lastTCheck) > tempCheckDelay) {
     double c = thermocouple.readCelsius();
     if (isnan(c)) {
      tcRead = -1; // so you know if there's a thermocouple error
@@ -55,6 +55,7 @@ void loop() {
      Input = c;
      tcRead = c;
     }    
+    lastTCheck = millis();
   }
 
   //manage heater
@@ -80,21 +81,31 @@ void checkSerial() {
   String inputString;
   if(Serial1.available() > 0) {
     inputString = Serial1.readStringUntil('\n');
+
     //expected message format is 1,35
     //on/off,temp set point (C)
-    //parse message 
+    //parse message -- need some kind of error checking
     int delimIndex = inputString.indexOf(',');
-    String heaterString = inputString.substring(0,delimIndex);
-    String setpointString = inputString.substring(delimIndex+1);
-  
-    int newHeaterStatus = heaterString.toInt();
-    int newSetpoint = setpointString.toInt();
-    //sanity check data -- if it's okay, update global variables
-    if (newHeaterStatus == 0 || newHeaterStatus == 1) {
-      heaterSetStatus = newHeaterStatus;
-      if (newSetpoint >= MINTEMP && newSetpoint <= MAXTEMP) {
-        heaterSetpoint = newSetpoint;
+    if (delimIndex >= 1) {
+      String heaterString = inputString.substring(0,delimIndex);
+      String setpointString = inputString.substring(delimIndex+1);
+    
+      int newHeaterStatus = heaterString.toInt();
+      double newSetpoint = setpointString.toFloat();
+      //Serial.println(newHeaterStatus);
+      //sanity check data -- if it's okay, update global variables
+      if (newHeaterStatus == 0 || newHeaterStatus == 1) {
+        heaterSetStatus = newHeaterStatus;
+        if (newSetpoint >= MINTEMP && newSetpoint <= MAXTEMP) {
+          heaterSetpoint = newSetpoint;
+        }
       }
+    }
+    else if (inputString.indexOf("POLL") >= 0 && inputString.length() == 5) {
+      //do nothing for now, just don't return
+    }
+    else {
+      return; //return if invalid request
     }
     Serial1.println((String)tcRead + "," + (String)heaterActive + "," + (String)heaterSetStatus + "," + (String)heaterSetpoint + "," + (String)pwmOut);
     // Message output format: temperature reading,heater on/off status, heater on/off set, temperature set point,PWM output
