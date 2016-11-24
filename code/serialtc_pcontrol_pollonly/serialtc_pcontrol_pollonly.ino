@@ -101,7 +101,7 @@ void checkSerial() {
         }
       }
     }
-    else if (inputString.indexOf("POLL") >= 0 && inputString.length() == 5) {
+    else if (inputString.indexOf("POLL") >= 0) {
       //do nothing for now, just don't return
     }
     else {
