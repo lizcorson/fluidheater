@@ -22,6 +22,7 @@ long lastMessageSent = 0;
 int heaterSetStatus = 0;
 int heaterSetpoint = 20;
 int heaterActive = 0;
+int pwmOut = 0;
 
 //PID
 //Define Variables we'll be connecting to
@@ -62,7 +63,7 @@ void loop() {
     Serial.print(",");
     Serial.print(heaterSetpoint);   
     Serial.print(",");
-    Serial.print((int)(Output/2));
+    Serial.print(pwmOut);
     Serial.print(",");
     Serial.print(Kp);
     Serial.print(","); 
@@ -79,11 +80,18 @@ void loop() {
   if (heaterSetStatus == 1) {// && Input < (double)heaterSetpoint) {
     Setpoint = (double)heaterSetpoint;
     myPID.Compute();
-    analogWrite(HEATERPIN,(int)(Output/2)); //need to limit to a max of 128.
+    pwmOut = (int)Output;
+    analogWrite(HEATERPIN,pwmOut); //need to limit to a max of 128.
     
-    heaterActive = 1;
+    //heater is only active if PWM > 0
+    if (pwmOut > 0) {
+      heaterActive = 1;
+    } else {
+      heaterActive = 0;
+    }
   } else {
-    analogWrite(HEATERPIN,0);
+    pwmOut = 0;
+    analogWrite(HEATERPIN,pwmOut);
     heaterActive = 0;
   }
   
